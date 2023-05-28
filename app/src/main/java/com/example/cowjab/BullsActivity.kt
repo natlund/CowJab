@@ -10,6 +10,8 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -106,17 +108,16 @@ fun BullItem(bull: BullModel) {
         Row(
             modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp)
         ) {
-            Text(text = bull.bullID.toString())
-            Spacer(modifier = Modifier.width(10.dp))
-            Text(text = bull.bullCode)
-            Spacer(modifier = Modifier.width(10.dp))
             Text(text = bull.bullName)
             Spacer(modifier = Modifier.weight(1f))
+            Text(text = bull.bullCode)
+            Spacer(modifier = Modifier.width(40.dp))
             if (bull.sexedSemen) {
-                Text(text = "Sexed")
+                Spacer(modifier = Modifier.width(32.dp))
+                Text(text = "Sexed", color = Color.Red, fontWeight = FontWeight.Bold )
             }
             else {
-                Text(text = "Non-sexed")
+                Text(text = "Non-sexed", fontWeight = FontWeight.Bold)
             }
         }
     }

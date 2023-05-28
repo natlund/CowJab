@@ -42,6 +42,9 @@ class CoreViewModel {
         BullModel(7,"D7", "Bodacious", true),
         BullModel(8, "D8","Breaker-1-9", true),
         BullModel(9, "D9", "Good Ole Boy", false),
+        BullModel(10, "FR5745","Seville", false),
+        BullModel(11, "518069", "Hardcopy", true),
+        BullModel(12, "518069", "Hardcopy", false),
     )
 
     fun addBull(bullCode: String, bullName: String, sexedSemen: Boolean) {
