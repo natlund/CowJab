@@ -1,0 +1,73 @@
+Notes on CowJab.
+
+Based on discussion with Ian over weekend 26 - 28 August 2022.
+
+Name of App:
+* CowJab
+* Cowpoke
+* Kaowhaka
+
+Ian's vote: Cowpoke
+
+Ian's Phone:
+Android 8.1.0
+
+
+
+Bulls:
+* BullName: String and BullCode: String
+
+Cows:
+* Show "Inseminated x days ago by bull: y"
+* Show row of coloured boxes showing last season or three of inseminations: Green box is normal return, Red box is short return, Magenta is long return.
+* Button "Details" that drops down list of all inseminations.  Possibly only for a single season.
+* Not critical to capture Breed etc.
+
+Farms:
+* Long term, useful to capture Contacts with integration with phone's text/call functionality.
+* Long term, useful to capture GPS location of farm.  And functionality to jump to Google maps.
+* Customer ID handy for LIC.  (Or for billing, if independent.)
+
+AI Jobs:
+* Change name to AI Visit.
+* Change button to something like "Select date of AI Visit".
+* Show Date as "  2022-08-28    Sun, 28 August"
+* No real need to capture time-of-day as well.
+
+
+AI Job Page:
+* Looking pretty good now, with separate Bull and Cow selectors.
+* Cow selection to be by text search with narrowing list of options.
+* Need to be able to Add a new cow when selecting one that doesn't yet exist.  (Not go back to Cows tab.)
+* Probably need a staging area once a cow has been selected:
+    * Shows "Last inseminated x days ago by bull: y"
+    * With a chance to change the bull.
+    * "OK" button creates a Proposed Insemination.
+
+Proposed Insemination Item.  (Yellow cards.)
+* Change text to "Last inseminated x days ago by bull y".
+* Colour code: Red short return, Green normal return, Magenta long return. Grey for not inseminated this season.
+* If Bull is null, show button "Select Bull" instead of "Done".  Bull list drops down.
+* Needs button "Edit Bull" to change bull.  Bull list drops down.
+* Needs button "Cancel".
+
+Extension:
+* Behind three vertical dots.
+** Close App.
+** Export database as CSV files:
+   * Upload to Google Drive.  (Best option.)
+   * Also can save to Phone folder, accessible from laptop by plugging in phone.
+   * Email the CSVs to an email address.
+
+
+More discussion with Ian over long weekend 27 - 30 May 2023.
+* New Model fields.
+** BullModel
+*** 
+
+Default App Technician is useful.  Also useful to be able to set the technician on the AI Visit, independently of setting the App Technician.
+
+Ability to easily add a new bull at point of creating inseminations might be useful.
+
+Wherever a bull appears, also show whether the semen is sexed or not.
+Show 'SXD' (in red) for Sexed semen, and blank (nothing) for un-sexed semen.
