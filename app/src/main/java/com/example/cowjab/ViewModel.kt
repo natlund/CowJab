@@ -10,50 +10,64 @@ class CoreViewModel {
 
     var technicians = mutableListOf<TechnicianModel>(
         TechnicianModel(
-            69, "Hemi", "074 9095 4037", "hemi@gmail.com",
+            69, "QR69", "Hemi",
+            "074 9095 4037", "hemi@gmail.com",
             "Whitchurch", LocalDate.of(2023, 1, 1)
         ),
         TechnicianModel(
-            70, "Larry", "074 9095 4037", "larry@gmail.com",
+            70, "WD40","Larry",
+            "074 9095 4037", "larry@gmail.com",
             "Crapstone, Devon", LocalDate.of(2023, 3, 1)
         )
     )
 
     fun addTechnician(
-        name: String, phone: String, email: String, address: String, startDate: LocalDate
+        code: String, name: String, phone: String, email: String, address: String, startDate: LocalDate
     ) {
         runningID += 1
         technicians.add(
             TechnicianModel(
-            technicianID = runningID,
-            name = name,
-            phone = phone,
-            email = email,
-            address = address,
-            startDate = startDate,
-        )
+                technicianID = runningID,
+                technicianCode = code,
+                name = name,
+                phone = phone,
+                email = email,
+                address = address,
+                startDate = startDate,
+            )
         )
     }
 
     var bulls = mutableListOf<BullModel>(
-        BullModel(7,"Bodacious"),
-        BullModel(8,"Breaker-1-9"),
-        BullModel(9, "Good Ole Boy"),
+        BullModel(7,"D7", "Bodacious", true),
+        BullModel(8, "D8","Breaker-1-9", true),
+        BullModel(9, "D9", "Good Ole Boy", false),
     )
 
-    fun addBull(bullName: String) {
+    fun addBull(bullCode: String, bullName: String, sexedSemen: Boolean) {
         runningID += 1
-        bulls.add(BullModel(bullID = runningID, bullName = bullName))
+        bulls.add(BullModel(
+            bullID = runningID,
+            bullCode = bullCode,
+            bullName = bullName,
+            sexedSemen = sexedSemen,
+        ))
     }
 
     var farms = mutableListOf<FarmModel>(
-        FarmModel(10,"Old MacDonald's", "NW5 3QL"),
-        FarmModel(11,"O'Reilly's", "Table Flat Road, Apiti"),
+        FarmModel(10, "OMCD123","Old MacDonald's", "NW5 3QL"),
+        FarmModel(11, "OR456","O'Reilly's", "Table Flat Road, Apiti"),
     )
 
-    fun addFarm(name: String, address: String) {
+    fun addFarm(customerCode: String, name: String, address: String) {
         runningID += 1
-        farms.add(FarmModel(farmID = runningID, name = name, address = address))
+        farms.add(FarmModel(
+            farmID = runningID,
+            customerCode = customerCode,
+            name = name,
+            address = address,
+
+        ))
     }
 
     //    var currentFarm = mutableStateOf<String>("Null")
@@ -288,8 +302,8 @@ class ProposedInseminationModel(
     var bullName: String,
     val cowID: Int,
     val cowTagID: String,
-    val technicianID: Int,
-    val technicianName: String,
+    var technicianID: Int,
+    var technicianName: String,
     val aiJobID: Int,
     val inseminationDate: LocalDate,
     val inseminationReturnStatus: InseminationReturnStatus,
@@ -297,9 +311,18 @@ class ProposedInseminationModel(
     val lastInseminationBullName: String,
 ) {}
 
-class BullModel(val bullID: Int, val bullName: String) {}
+class BullModel(
+    val bullID: Int,
+    val bullCode: String,
+    val bullName: String,
+    val sexedSemen: Boolean,
+) {}
 
-class FarmModel(val farmID: Int, val name: String, val address: String) {}
+class CustomerModel(val customerCode: String, val customerName: String, )
+
+class PersonModel(val name: String, val phoneNumber: Int, val email: String, )
+
+class FarmModel(val farmID: Int, val customerCode: String, val name: String, val address: String) {}
 
 class CowModel(val cowID: Int, val cowTagID: String, val farmID: Int) {}
 
@@ -317,6 +340,7 @@ class AIJobModel(
 
 class TechnicianModel(
     val technicianID: Int,
+    val technicianCode: String,
     val name: String,
     val phone: String,
     val email: String,

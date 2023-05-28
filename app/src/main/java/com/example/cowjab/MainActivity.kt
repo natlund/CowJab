@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
@@ -73,7 +74,9 @@ fun FarmsPage(core: CoreViewModel, onTabStateChange: (Int) -> Unit) {
         AddFarm(
             openAddFarm = openAddFarm,
             addFarm = {
-                    farmName: String, farmAddress: String -> core.addFarm(farmName, farmAddress)
+                    customerCode: String, farmName: String, farmAddress: String -> core.addFarm(
+                customerCode, farmName, farmAddress,
+            )
             })
     }
 
@@ -88,9 +91,7 @@ fun FarmsPage(core: CoreViewModel, onTabStateChange: (Int) -> Unit) {
 
     Column {
         farms.forEach {
-                farm -> FarmItem(
-            farm.farmID, farm.name, farm.address, core = core, onTabStateChange = onTabStateChange
-        )
+                farm -> FarmItem(farm = farm, core = core, onTabStateChange = onTabStateChange)
         }
     }
 
@@ -128,14 +129,21 @@ fun FarmsPage(core: CoreViewModel, onTabStateChange: (Int) -> Unit) {
 }
 
 @Composable
-fun AddFarm(openAddFarm: MutableState<Boolean>, addFarm: (String, String) -> Unit) {
+fun AddFarm(openAddFarm: MutableState<Boolean>, addFarm: (String, String, String) -> Unit) {
 
+    var customerCode by rememberSaveable { mutableStateOf("") }
     var farmName by rememberSaveable { mutableStateOf("") }
     var farmAddress by rememberSaveable { mutableStateOf("") }
 
     Column(
         modifier = Modifier.padding(horizontal = 10.dp)
     ) {
+        TextField(
+            modifier = Modifier.padding(vertical = 4.dp).fillMaxWidth(),
+            value = customerCode,
+            onValueChange = { customerCode = it },
+            label = { Text(text = "Customer Code")}
+        )
         TextField(
             modifier = Modifier.padding(vertical = 4.dp).fillMaxWidth(),
             value = farmName,
@@ -148,19 +156,27 @@ fun AddFarm(openAddFarm: MutableState<Boolean>, addFarm: (String, String) -> Uni
             onValueChange = { farmAddress = it },
             label = { Text(text = "Farm Address")}
         )
-        Button(
-            modifier = Modifier.padding(vertical = 4.dp),
-            onClick = {
-                addFarm(farmName, farmAddress)
-                openAddFarm.value = false
-            })
-        { Text(text = "Save Farm") }
+        Row {
+            Button(
+                modifier = Modifier.padding(4.dp),
+                onClick = {
+                    addFarm(customerCode, farmName, farmAddress)
+                    openAddFarm.value = false
+                })
+            { Text(text = "Save Farm") }
+            Button(
+                modifier = Modifier.padding(4.dp),
+                onClick = {
+                    openAddFarm.value = false
+                })
+            { Text(text = "Cancel") }
+        }
     }
 }
 
 
 @Composable
-fun FarmItem(farmID: Int, name: String, address: String, core: CoreViewModel, onTabStateChange: (Int) -> Unit) {
+fun FarmItem(farm: FarmModel, core: CoreViewModel, onTabStateChange: (Int) -> Unit) {
     Card(
         modifier = Modifier.fillMaxWidth().padding(4.dp),
         elevation = 4.dp,
@@ -169,17 +185,18 @@ fun FarmItem(farmID: Int, name: String, address: String, core: CoreViewModel, on
         ) {
         Row(modifier = Modifier.padding(vertical = 4.dp)){
             Button(
-                modifier = Modifier.padding(horizontal = 8.dp),
+                modifier = Modifier.padding(horizontal = 8.dp).align(Alignment.CenterVertically),
                 onClick = {
-                    core.selectFarm(farmID = farmID)
+                    core.selectFarm(farmID = farm.farmID)
                     onTabStateChange(2)
                 }) {
                 Text(text = "Select")
             }
             Spacer(modifier = Modifier.width(12.dp))
             Column {
-                Text(text = name)
-                Text(text = address, color = Color.Blue)
+                Text(text = farm.customerCode)
+                Text(text = farm.name)
+                Text(text = farm.address, color = Color.Blue)
             }
         }
     }

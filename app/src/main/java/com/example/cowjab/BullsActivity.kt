@@ -22,7 +22,7 @@ fun BullsPage(core: CoreViewModel) {
         if  (openAddBull.value) {
             AddBull(
                 openAddBull = openAddBull,
-                addBull = { bull: String -> core.addBull(bull) }
+                core = core,
             )
         }
 
@@ -41,14 +41,22 @@ fun BullsPage(core: CoreViewModel) {
 }
 
 @Composable
-fun AddBull(openAddBull: MutableState<Boolean>, addBull: (String) -> Unit) {
+fun AddBull(openAddBull: MutableState<Boolean>, core: CoreViewModel,) {
+    var bullCode by rememberSaveable{ mutableStateOf("") }
     var bullName by rememberSaveable{ mutableStateOf("") }
+    var sexedSemen by rememberSaveable{ mutableStateOf(false) }
 
     Column(
         modifier = Modifier
             .padding(4.dp)
             .fillMaxWidth()
     ) {
+        TextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = bullCode,
+            onValueChange = { bullCode = it },
+            label = { Text("New Bull Code") }
+        )
         TextField(
             modifier = Modifier.fillMaxWidth(),
             value = bullName,
@@ -60,8 +68,14 @@ fun AddBull(openAddBull: MutableState<Boolean>, addBull: (String) -> Unit) {
             Button(
                 modifier = Modifier.padding(horizontal = 4.dp),
                 onClick = {
-                    addBull(bullName)
+                    core.addBull(
+                        bullCode = bullCode,
+                        bullName = bullName,
+                        sexedSemen = sexedSemen,
+                    )
+                    bullCode = ""
                     bullName = ""
+                    sexedSemen = false
                     openAddBull.value = false
                 }
             ) {
@@ -77,7 +91,6 @@ fun AddBull(openAddBull: MutableState<Boolean>, addBull: (String) -> Unit) {
             }
         }
     }
-
 }
 
 @Composable
@@ -95,7 +108,16 @@ fun BullItem(bull: BullModel) {
         ) {
             Text(text = bull.bullID.toString())
             Spacer(modifier = Modifier.width(10.dp))
+            Text(text = bull.bullCode)
+            Spacer(modifier = Modifier.width(10.dp))
             Text(text = bull.bullName)
+            Spacer(modifier = Modifier.weight(1f))
+            if (bull.sexedSemen) {
+                Text(text = "Sexed")
+            }
+            else {
+                Text(text = "Non-sexed")
+            }
         }
     }
 }
